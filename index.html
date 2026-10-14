@@ -1,0 +1,56 @@
+<!DOCTYPE html>
+<html lang="zh-TW">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+  <title>小小畫家學堂</title>
+  <link rel="manifest" href="manifest.json">
+  <meta name="theme-color" content="#FF6B6B">
+  <link rel="stylesheet" href="style.css">
+  <link rel="apple-touch-icon" href="images/icon.jpg">
+</head>
+<body>
+  <header>
+    <h1>🎨 小小畫家學堂</h1>
+    <button id="lessons-btn">📚 課程</button>
+  </header>
+
+  <div id="toolbar">
+    <div class="colors">
+      <button class="color-btn" data-color="#000000" style="background:#000"></button>
+      <button class="color-btn" data-color="#FF0000" style="background:#F00"></button>
+      <button class="color-btn" data-color="#FFA500" style="background:#FFA500"></button>
+      <button class="color-btn" data-color="#FFFF00" style="background:#FF0"></button>
+      <button class="color-btn" data-color="#00FF00" style="background:#0F0"></button>
+      <button class="color-btn" data-color="#0000FF" style="background:#00F"></button>
+      <button class="color-btn" data-color="#800080" style="background:#800080"></button>
+      <button class="color-btn" data-color="#FFFFFF" style="background:#FFF; border:1px solid #ccc"></button>
+      <input type="color" id="color-picker" value="#000000">
+    </div>
+    <div class="tools">
+      <label>筆刷大小: <input type="range" id="brush-size" min="2" max="40" value="8"></label>
+      <button id="eraser-btn">🧽 橡皮擦</button>
+      <button id="undo-btn">↩️ 復原</button>
+      <button id="clear-btn">🗑️ 清除</button>
+      <button id="save-btn">💾 保存圖片</button>
+    </div>
+  </div>
+
+  <div id="main">
+    <canvas id="drawing-canvas"></canvas>
+    <div id="lesson-panel" class="hidden">
+      <h2>選擇課程</h2>
+      <div id="lesson-list"></div>
+      <div id="lesson-detail" class="hidden">
+        <img id="lesson-img" src="" alt="參考圖">
+        <div id="lesson-steps"></div>
+        <button id="next-step">下一步</button>
+        <button id="back-to-list">返回列表</button>
+        <button id="close-lesson">開始自由畫</button>
+      </div>
+    </div>
+  </div>
+
+  <script src="script.js"></script>
+</body>
+</html>
