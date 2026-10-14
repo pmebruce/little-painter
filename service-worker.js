@@ -5,6 +5,11 @@ const urlsToCache = [
   '/style.css',
   '/script.js',
   '/manifest.json',
+  '/images/sun.svg',
+  '/images/house.svg',
+  '/images/flower.svg',
+  '/images/cat.svg',
+  '/images/star.svg'
 ];
 
 self.addEventListener('install', event => {
