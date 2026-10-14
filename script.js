@@ -18,7 +18,7 @@ const lessons = [
   {
     id: 'sun',
     title: '☀️ 畫太陽',
-    image: 'images/sun.jpg',
+    image: 'images/sun.svg',
     steps: [
       '1. 先畫一個大大的圓圈（太陽的臉）',
       '2. 在圓圈周圍畫許多直線，像光芒一樣',
@@ -29,7 +29,7 @@ const lessons = [
   {
     id: 'house',
     title: '🏠 畫房子',
-    image: 'images/house.jpg',
+    image: 'images/house.svg',
     steps: [
       '1. 畫一個長方形當房子身體',
       '2. 在上面畫一個三角形當屋頂',
@@ -40,7 +40,7 @@ const lessons = [
   {
     id: 'flower',
     title: '🌸 畫小花',
-    image: 'images/flower.jpg',
+    image: 'images/flower.svg',
     steps: [
       '1. 先畫一個小圓當花心',
       '2. 在花心周圍畫幾個橢圓或圓當花瓣',
@@ -51,7 +51,7 @@ const lessons = [
   {
     id: 'cat',
     title: '🐱 畫小貓',
-    image: 'images/cat.jpg',
+    image: 'images/cat.svg',
     steps: [
       '1. 畫一個大圓當貓的臉',
       '2. 在上面加兩個三角形當耳朵',
@@ -62,7 +62,7 @@ const lessons = [
   {
     id: 'star',
     title: '⭐ 畫星星',
-    image: 'images/star.jpg',
+    image: 'images/star.svg',
     steps: [
       '1. 先畫一個向上的三角形',
       '2. 再在下面畫一個倒三角形，讓它們重疊',
