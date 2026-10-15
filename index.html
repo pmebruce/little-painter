@@ -537,6 +537,23 @@ header { background:var(--bg); color:var(--text); box-shadow:none; padding-top:m
 .mixer { background:#F2F3E9; border-color:var(--border); border-radius:14px; }.badge { background:#F0EFE7; color:#7B8174; }.badge.on { background:#EEE5C9; color:#715B26; border-color:#DDCEA5; }
 .canvas-wrap { border:1px solid #DDE2D9; box-shadow:0 4px 15px #365B4510; }.free-hero { background:#E9EFDF; border-radius:16px; }.toast { background:#304E3C; }
 
+
+.palette-heading { display:flex; justify-content:space-between; align-items:center; font-size:13px; font-weight:700; color:#526458; margin-top:3px; }
+.palette-heading>span:last-child { font-size:12px; color:#7B8174; }
+.palette-tabs { display:grid; grid-template-columns:repeat(3,minmax(0,1fr)); gap:4px; padding:3px; border-radius:11px; background:#F0EEE5; }
+.palette-tabs button { min-height:40px; padding:4px 0; border:0; border-radius:9px; background:transparent; color:#637264; font-size:14px; font-weight:700; cursor:pointer; }
+.palette-tabs button.active { background:#356F59; color:white; }
+.palette { grid-template-columns:repeat(4,minmax(0,1fr)); gap:8px; padding:5px 2px; }
+.palette .swatch { min-height:0; min-width:0; width:100%; max-width:42px; aspect-ratio:1; padding:0; border:2px solid #fff; box-shadow:0 0 0 1px #DDDCD1,0 2px 4px #0001; }
+.palette .swatch.active { outline:3px solid #356F59; outline-offset:1px; transform:scale(1.03); }
+.palette .swatch:focus-visible,.palette-tabs button:focus-visible { outline:3px solid #356F59; outline-offset:3px; }
+.custom-color-row { display:flex; align-items:center; justify-content:space-between; gap:8px; padding:5px 8px; background:#F2F3E9; border-radius:10px; }
+.custom-color-row label { font-size:14px; color:#425A49; cursor:pointer; }
+.custom-color-row input { width:46px; height:40px; min-height:40px; padding:3px; border:1px solid #D8DDCF; border-radius:8px; background:#FFFEF9; cursor:pointer; }
+.current-color { display:flex; align-items:center; gap:7px; font-size:13px; color:#637264; min-height:28px; }
+#currentColorPreview { width:22px; height:22px; flex:none; border-radius:50%; border:2px solid white; box-shadow:0 0 0 1px #DDDCD1; }
+@media(max-width:699px){.palette { grid-template-columns:repeat(6,minmax(0,1fr));gap:9px; }.palette-tabs button { min-height:44px; }.custom-color-row { justify-content:flex-start; }.current-color { margin-top:2px; }}
+
 </style>
 </head>
 <body>
@@ -644,7 +661,11 @@ header { background:var(--bg); color:var(--text); box-shadow:none; padding-top:m
       <button class="tool-btn" onclick="setBrush('star')" id="b-star"><span>⭐</span>星星筆</button>
       <button class="tool-btn" onclick="setBrush('eraser')" id="b-eraser"><span>🧽</span>橡皮擦</button>
     </div>
-    <div class="palette" id="pal"></div>
+    <div class="palette-heading"><span>🎨 選個喜歡的顏色</span><span>48 色</span></div>
+    <div class="palette-tabs" role="group" aria-label="色彩分類"><button class="active" id="colors-basic" onclick="showPalette('basic')" aria-pressed="true">基本</button><button id="colors-pastel" onclick="showPalette('pastel')" aria-pressed="false">粉彩</button><button id="colors-nature" onclick="showPalette('nature')" aria-pressed="false">自然</button></div>
+    <div class="palette" id="pal" role="group" aria-label="基本色調色盤"></div>
+    <div class="custom-color-row"><label for="customColor">＋ 自選顏色</label><input id="customColor" type="color" value="#2b2d42" aria-label="自選畫筆顏色" oninput="chooseColor(this.value,'我的顏色')"></div>
+    <div class="current-color" aria-live="polite"><span id="currentColorPreview" style="background:#2B2D42"></span><span id="currentColorName">正在用：墨黑</span></div>
     <div class="mixer">
       <div>
         <div style="font-size:0.76rem;font-weight:800">🧪 顏料混色實驗</div>
@@ -715,7 +736,24 @@ LESSONS.shapes={name:'🔵 形狀積木',steps:[
  {tip:'最後用四條邊圍成正方形，像一扇小窗戶。',fn:(c,w,h)=>{c.beginPath();c.rect(w*.4,h*.61,h*.24,h*.24);c.stroke()}}
 ]};
 let curLes='lines',curStep=0,brush='pencil',col='#2B2D42',sz=8,hue=0,drawing=false,last=null,undos=[],redos=[];
-const COLORS=['#2B2D42','#FF595E','#FF7A59','#FFCA3A','#8AC926','#06D6A0','#1982C4','#3EC1D3','#6A4C93','#B5179E','#8D5B4C','#FFFFFF'];
+const COLOR_GROUPS={
+ basic:{name:'基本色',colors:[['墨黑','#2B2D42'],['白色','#FFFFFF'],['紅色','#FF595E'],['橘色','#FF7A59'],['黃色','#FFCA3A'],['草綠','#8AC926'],['薄荷綠','#06D6A0'],['湖水藍','#3EC1D3'],['藍色','#1982C4'],['深藍','#24478F'],['紫色','#6A4C93'],['桃紅','#B5179E'],['粉紅','#F58DB4'],['咖啡','#8D5B4C'],['灰色','#9CA3AF'],['金黃','#D7A52B']]},
+ pastel:{name:'粉彩色',colors:[['櫻花粉','#F9CBD7'],['蜜桃粉','#F5B4AA'],['杏桃橘','#FFD2AE'],['奶油黃','#FFF1AB'],['檸檬黃','#F6F5BF'],['嫩芽綠','#D8E7AE'],['開心果綠','#C4D9B2'],['薄荷奶綠','#BFE7D0'],['淺湖水綠','#BCE6DF'],['天空藍','#B8DCF0'],['粉霧藍','#B9CBE7'],['薰衣草紫','#CCC1E7'],['丁香紫','#E0C2E6'],['玫瑰粉','#E8BBC8'],['奶茶色','#DFCDB6'],['暖灰','#D9D9D3']]},
+ nature:{name:'自然與膚色',colors:[['淺膚色','#FFE0BD'],['蜜桃膚','#F3C6A5'],['暖膚色','#DCA078'],['小麥膚','#B97B56'],['深膚色','#87543B'],['深棕膚','#59382B'],['沙土色','#C5A575'],['赭石色','#BA7945'],['紅磚色','#A95445'],['巧克力','#634539'],['樹幹棕','#49382D'],['森林綠','#356F59'],['橄欖綠','#7B8A46'],['鼠尾草綠','#9BAF95'],['海洋藍','#347B91'],['夜空藍','#283D57']]}
+};
+const COLORS=Object.values(COLOR_GROUPS).flatMap(g=>g.colors.map(c=>c[1]));
+let paletteGroup='basic';
+function chooseColor(color,name){
+ col=color;if(brush==='eraser')setBrush('pencil');
+ document.querySelectorAll('.swatch').forEach(x=>{const selected=x.dataset.color.toLowerCase()===color.toLowerCase();x.classList.toggle('active',selected);x.setAttribute('aria-pressed',String(selected))});
+ document.getElementById('customColor').value=color;document.getElementById('currentColorPreview').style.background=color;document.getElementById('currentColorName').textContent='正在用：'+name;
+}
+function showPalette(group){
+ paletteGroup=group;const g=COLOR_GROUPS[group],pal=document.getElementById('pal');pal.replaceChildren();pal.setAttribute('aria-label',g.name+'調色盤');
+ for(const [name,color] of g.colors){const b=document.createElement('button');b.type='button';b.className='swatch';b.style.background=color;b.dataset.color=color;b.title=name;b.setAttribute('aria-label',name);b.classList.toggle('active',color.toLowerCase()===col.toLowerCase());b.setAttribute('aria-pressed',String(color.toLowerCase()===col.toLowerCase()));b.onclick=()=>chooseColor(color,name);pal.appendChild(b);}
+ for(const key of Object.keys(COLOR_GROUPS)){const b=document.getElementById('colors-'+key);b.classList.toggle('active',key===group);b.setAttribute('aria-pressed',String(key===group));}
+}
+
 const MIXES=[{n:'紅',h:'#FF595E',r:255,g:89,b:94},{n:'黃',h:'#FFCA3A',r:255,g:202,b:58},{n:'藍',h:'#1982C4',r:25,g:130,b:196},{n:'白',h:'#FFFFFF',r:255,g:255,b:255}];
 let mA=0,mB=1,deferredPrompt=null;
 const dc=document.getElementById('drawCanvas'),gc=document.getElementById('guideCanvas'),grc=document.getElementById('gridCanvas');
@@ -725,13 +763,7 @@ function toast(m){const t=document.getElementById('toast');t.textContent=m;t.cla
 function badge(id){const el=document.getElementById(id);if(el&&!el.classList.contains('on')){el.classList.add('on');toast('🏅 解鎖徽章：'+el.textContent)}}
 
 function init(){
-  const pal=document.getElementById('pal');
-  COLORS.forEach((c,i)=>{
-    const d=document.createElement('div');d.className='swatch'+(i===0?' active':'');d.style.background=c;
-    if(c==='#FFFFFF')d.style.border='2px solid #CBD5E1';
-    d.onclick=()=>{col=c;if(brush==='eraser')setBrush('pencil');document.querySelectorAll('.swatch').forEach(x=>x.classList.remove('active'));d.classList.add('active')};
-    pal.appendChild(d);
-  });
+  showPalette('basic');
   resize();window.addEventListener('resize',resize);
   updateGalCnt();
 }
@@ -826,7 +858,7 @@ function mix(s){
   const out=document.getElementById('mixOut');out.style.background=hex;out.dataset.hex=hex;
   document.getElementById('mixTxt').textContent=`${a.n}+${b.n} = 點右側方塊使用`;if(s!=='init')badge('bg-mix');
 }
-function useMix(){if(brush==='eraser')setBrush('pencil');document.querySelectorAll('.swatch').forEach(x=>x.classList.remove('active'));col=document.getElementById('mixOut').dataset.hex||'#FF924C';toast('🎨 已換上特調色：'+col)}
+function useMix(){chooseColor(document.getElementById('mixOut').dataset.hex||'#FF924C','特調色');toast('🎨 已換上你的特調色！')}
 function readGallery(){try{const g=JSON.parse(localStorage.getItem('lp_gal')||'[]');return Array.isArray(g)?g.filter(x=>x&&typeof x.u==='string'&&x.u.startsWith('data:image/png')):[]}catch(e){return []}}
 function saveArt(){
   const g=readGallery();
