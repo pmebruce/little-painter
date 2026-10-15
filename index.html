@@ -3,9 +3,9 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width,initial-scale=1.0,viewport-fit=cover">
-<meta name="theme-color" content="#FF7A59">
+<meta name="theme-color" content="#F7F3E8">
 <meta name="apple-mobile-web-app-capable" content="yes">
-<title>小畫家魔法學院 — 兒童繪畫技巧學習 PWA</title>
+<title>小小畫畫教室 — 兒童繪畫技巧學習 PWA</title>
 <link rel="manifest" href="manifest.json">
 <link rel="icon" type="image/svg+xml" href="icon.svg">
 <link rel="apple-touch-icon" sizes="180x180" href="icon-180.png">
@@ -448,6 +448,95 @@ button, select, input { min-height: 36px; }
 .panel, .stage, .step-info { min-width: 0; }
 .toast { white-space: normal; text-align: center; width: max-content; max-width: 92vw; }
 @media (max-width: 420px) { .mode-tabs { grid-template-columns: repeat(2, 1fr); } .brand-sub { display: none; } .header-top { flex-wrap: wrap; } }
+
+/* Tablet-first workspace: the drawing area fits between persistent side panels. */
+body { min-height: 100dvh; }
+header { padding: 10px 18px; gap: 9px; }
+.brand-title { font-size: 20px; }.brand-sub { font-size: 13px; }
+.pill-btn,.mode-tab,.btn,.lesson-btn,.tool-btn { font-size: 15px; min-height: 44px; }
+.mode-tabs { display:flex; width:max-content; max-width:100%; align-self:center; }
+.mode-tab { padding: 8px 18px; }
+.experience-bar { display:flex; align-items:center; justify-content:space-between; gap:12px; padding:8px 18px; }
+.experience-bar>span { font-size:14px; color:var(--muted); }
+.experience-switch { display:flex; padding:4px; background:#F1EDE5; border-radius:14px; gap:4px; }
+.experience-switch button { border:0; padding:6px 14px; background:transparent; border-radius:10px; color:var(--muted); font-weight:800; font-size:15px; min-height:40px; cursor:pointer; }
+.experience-switch button.active { background:#fff; color:var(--primary-dk); box-shadow:0 2px 6px #0001; }
+.workspace { padding:0 12px 12px; gap:12px; align-items:stretch; max-width:1800px; }
+.panel { padding:12px; gap:10px; }.section-title { font-size:16px; flex-wrap:wrap; gap:5px; }
+.coach-panel .section-title { flex-direction:column; align-items:flex-start; }
+.lesson-grid { grid-template-columns:repeat(2,minmax(0,1fr)); }
+.lesson-btn { padding:6px 2px; font-size:14px; }
+.coach-row { flex-direction:column; gap:10px; }.preview-box { width:100%; padding:6px; }
+.step-info { width:100%; }.step-tip { font-size:15px; line-height:1.6; min-height:76px; }
+.teacher-actions { display:grid; grid-template-columns:1fr 1fr; gap:6px; }
+.teacher-actions .btn { padding:5px 2px; font-size:14px; }
+.btn-row .btn { padding:5px 4px; }
+.toggles-bar { font-size:13px; gap:4px 8px; }.toggles-bar label { min-height:36px; }
+input[type=checkbox] { width:19px; height:19px; min-height:19px; accent-color:var(--primary); }
+.size-control { display:flex; align-items:center; gap:6px; font-size:14px; flex-wrap:wrap; }.size-control input { width:100%; accent-color:var(--sec); }
+.tool-grid { grid-template-columns:repeat(2,minmax(0,1fr)); }.tool-btn { min-height:58px; padding:6px 2px; }.tool-btn span { font-size:23px; }
+.palette { grid-template-columns:repeat(4,minmax(0,1fr)); gap:10px; padding:6px 2px; }.swatch { max-width:42px; }
+.mixer { flex-direction:column; gap:9px; }.mixer-slots { justify-content:center; }.slot { width:34px; height:34px; }
+.drawing-options { display:flex; align-items:center; gap:7px 14px; flex-wrap:wrap; padding:8px 12px; font-size:13px; }
+.drawing-options label { display:flex; align-items:center; gap:5px; min-height:30px; }
+#drawingStatus { color:var(--muted); font-size:13px; }
+.stage { min-height:0; background:#EBF0F4; }.toolbar { padding:8px; gap:6px; }.toolbar .btn { padding:6px 10px; font-size:14px; white-space:nowrap; }
+.canvas-space { flex:1; min-height:0; display:flex; justify-content:center; align-items:center; padding:10px; container-type:size; }
+.canvas-wrap { margin:0; width:min(100cqw, calc(100cqh * 4 / 3)); height:auto; aspect-ratio:4/3; max-height:none; flex:none; border-radius:12px; }
+#demoCanvas { pointer-events:none; }
+.canvas-footer { padding:8px 12px; display:flex; align-items:center; gap:10px; justify-content:space-between; background:#fff; border-top:1px solid var(--border); }
+.canvas-footer>span { font-size:13px; color:var(--muted); }.canvas-footer .btn { flex:none; font-size:14px; }
+.free-coach { display:none; }.free-hero { font-size:64px; text-align:center; padding:18px 0; }.free-coach h2 { font-size:20px; }.free-coach p { font-size:16px; line-height:1.8; color:var(--muted); }.free-coach .btn { flex:none; }
+body.free-mode .mode-tabs { display:none; }body.free-mode .coach-panel { display:none; }body.free-mode .free-coach { display:flex; }
+body.free-mode .tools-panel .mixer,body.free-mode .tools-panel .badge,body.free-mode #b-water,body.free-mode #b-pencil { display:none; }
+body.free-mode .tool-grid { grid-template-columns:repeat(2,minmax(0,1fr)); }
+body.free-mode .tool-btn { min-height:72px; font-size:17px; }
+@media(min-width:960px) and (min-height:500px) {
+ body { height:100dvh; overflow:hidden; }
+ header { flex:none; }.header-top { gap:20px; }.brand-sub { display:block; }
+ .workspace { flex:1; min-height:0; grid-template-columns:224px minmax(0,1fr) 190px; }
+ .panel { overflow-y:auto; min-height:0; scrollbar-width:thin; }
+ .mode-tabs { align-self:flex-start; }.mode-tab { min-height:38px; padding:5px 20px; }
+ .coach-panel .preview-box { max-width:210px; align-self:center; }
+}
+@media(min-width:1200px) and (min-height:500px) { .workspace { grid-template-columns:250px minmax(0,1fr) 220px; } }
+@media(min-width:700px) and (max-width:959px) {
+ .workspace { grid-template-columns:minmax(0,1fr) 190px; }
+ .coach-panel,.free-coach { grid-column:1/-1; }.coach-panel { display:grid; grid-template-columns:190px minmax(0,1fr); align-items:start; }
+ .coach-panel .section-title { grid-column:1/-1; flex-direction:row; }.coach-panel .coach-row { flex-direction:row; }.coach-panel .preview-box { width:150px; }.coach-panel .toggles-bar { grid-column:1/-1; }
+ .stage { min-height:520px; }.canvas-space { min-height:380px; }.tools-panel { grid-column:2; }.free-coach { flex-direction:row; align-items:center; flex-wrap:wrap; }.free-hero { font-size:40px; padding:0; }
+}
+@media(max-width:699px) {
+ header { padding:10px; }.brand-title { font-size:18px; }.brand-sub { display:none; }.pill-btn { font-size:13px; padding:4px 8px; }
+ .mode-tabs { display:grid; grid-template-columns:repeat(2,1fr); width:100%; }.mode-tab { font-size:14px; padding:5px; }
+ .experience-bar { padding:8px 10px; }.experience-bar>span { display:none; }.experience-switch { width:100%; }.experience-switch button { flex:1; }
+ .workspace { display:flex; flex-direction:column; padding:0 8px 8px; gap:8px; }.coach-panel .coach-row { flex-direction:row; }.coach-panel .preview-box { width:90px; }.coach-panel .lesson-grid { grid-template-columns:repeat(3,minmax(0,1fr)); }
+ .step-tip { min-height:0; font-size:14px; }.teacher-actions .btn { font-size:13px; }.stage { height:500px; min-height:440px; flex:none; }.canvas-space { min-height:260px; }
+ .tools-panel .tool-grid { grid-template-columns:repeat(6,minmax(0,1fr)); }.tools-panel .tool-btn { font-size:12px; }.palette { grid-template-columns:repeat(6,minmax(0,1fr)); }.mixer { flex-direction:row; }.size-control input { width:50%; }.drawing-options { padding:6px 8px; }.canvas-footer>span { max-width:55%; }
+}
+
+
+/* Visual language from the original Little Art classroom. */
+:root { --bg:#F7F3E8; --primary:#356F59; --primary-dk:#285944; --sec:#6E927D; --yellow:#E6C979; --text:#293D33; --muted:#737D70; --border:#E3E1D5; }
+header { background:var(--bg); color:var(--text); box-shadow:none; padding-top:max(12px,env(safe-area-inset-top)); }
+.brand-icon { background:#356F59; border-radius:13px; width:42px; height:42px; font-size:27px; }
+.brand-title { font-weight:800; letter-spacing:.03em; }.brand-sub { color:#7C8376; opacity:1; }
+.pill-btn { background:#FFFEF9; color:var(--text); border:1px solid var(--border); border-radius:13px; }
+.mode-tabs { background:transparent; padding:0; gap:7px; }
+.mode-tab { background:#FFFEF9; color:#526458; border:1px solid var(--border); border-radius:14px; font-weight:600; }
+.mode-tab.active { background:var(--primary); color:#fff; border-color:var(--primary); box-shadow:none; }
+.experience-bar { background:#E7EDDD; border-radius:16px; margin:0 12px 10px; padding:8px 12px; }
+.experience-switch { background:transparent; padding:0; }.experience-switch button { font-weight:700; }.experience-switch button.active { background:#FFFEF9; color:var(--primary-dk); box-shadow:none; }
+.panel { background:#FFFEF9; border:1px solid var(--border); border-radius:20px; box-shadow:none; }
+.stage { border:1px solid var(--border); border-radius:20px; background:#ECEFE5; }
+.toolbar,.canvas-footer { background:#FFFEF9; border-color:var(--border); }.toolbar { border-bottom:1px solid var(--border); }
+.btn { border-radius:11px; font-weight:600; }.btn-pri,.btn-acc { background:var(--primary); color:#fff; }.btn-sec { background:#F0EEE5; color:#425A49; }
+.lesson-btn { border:1px solid var(--border); background:#FFFEF9; border-radius:12px; font-weight:600; }.lesson-btn.active { background:var(--primary); color:#fff; border-color:var(--primary); }
+.preview-box { background:#F4F5EB; border:1px dashed #C8D3C2; border-radius:14px; }.step-tip { background:#F2ECD9; color:#3E4F40; border:0; border-radius:12px; }
+.tool-btn { border:1px solid var(--border); border-radius:12px; color:#506454; background:#FFFEF9; }.tool-btn.active { background:#E4EDDF; border-color:#6B947B; color:#285944; }
+.mixer { background:#F2F3E9; border-color:var(--border); border-radius:14px; }.badge { background:#F0EFE7; color:#7B8174; }.badge.on { background:#EEE5C9; color:#715B26; border-color:#DDCEA5; }
+.canvas-wrap { border:1px solid #DDE2D9; box-shadow:0 4px 15px #365B4510; }.free-hero { background:#E9EFDF; border-radius:16px; }.toast { background:#304E3C; }
+
 </style>
 </head>
 <body>
@@ -456,8 +545,8 @@ button, select, input { min-height: 36px; }
     <div class="brand">
       <div class="brand-icon">🎨</div>
       <div>
-        <div class="brand-title">小畫家魔法學院</div>
-        <div class="brand-sub">兒童繪畫技巧學習 PWA · 支援觸控與感壓筆</div>
+        <div class="brand-title">小小畫畫教室</div>
+        <div class="brand-sub">LITTLE ART · 每一筆都有自己的樣子</div>
       </div>
     </div>
     <div class="header-btns">
@@ -468,19 +557,25 @@ button, select, input { min-height: 36px; }
   <div class="mode-tabs">
     <button class="mode-tab active" onclick="setMode('step')" id="tab-step">📐 分步拆解</button>
     <button class="mode-tab" onclick="setMode('grid')" id="tab-grid">🔍 網格觀察</button>
-    <button class="mode-tab" onclick="setMode('symmetry')" id="tab-symmetry">🦋 對稱魔法</button>
+    <button class="mode-tab" onclick="setMode('symmetry')" id="tab-symmetry">🦋 對稱遊戲</button>
     <button class="mode-tab" onclick="setMode('color')" id="tab-color">🌈 混色創作</button>
   </div>
 </header>
 
+<div class="experience-bar">
+  <div class="experience-switch" aria-label="學習方式"><button id="learnBtn" class="active" onclick="setExperience('learn')">📚 跟著學畫</button><button id="freeBtn" onclick="setExperience('free')">🎈 自由玩畫</button></div>
+  <span id="experienceHint">先看示範，再換你畫！</span>
+</div>
 <div class="workspace">
   <!-- Coach Panel -->
-  <aside class="panel">
+  <aside class="panel coach-panel">
     <div class="section-title">
-      <span>📚 步驟拆解小老師</span>
+      <span>📚 我的畫畫老師</span>
       <span id="stepBadge" style="color:var(--primary);font-size:0.76rem">🐱 幾何小貓 · 第 1/4 步</span>
     </div>
     <div class="lesson-grid">
+      <button class="lesson-btn" onclick="setLesson('lines')" id="les-lines">〰️ 線條練習</button>
+      <button class="lesson-btn" onclick="setLesson('shapes')" id="les-shapes">🔵 形狀積木</button>
       <button class="lesson-btn active" onclick="setLesson('cat')" id="les-cat">🐱 小貓</button>
       <button class="lesson-btn" onclick="setLesson('rocket')" id="les-rocket">🚀 火箭</button>
       <button class="lesson-btn" onclick="setLesson('dino')" id="les-dino">🦕 恐龍</button>
@@ -492,14 +587,16 @@ button, select, input { min-height: 36px; }
       </div>
       <div class="step-info">
         <div class="step-tip" id="stepTip"></div>
+        <div class="teacher-actions"><button class="btn btn-acc" onclick="playDemo()">▶ 看老師畫</button><button class="btn btn-sec" onclick="speakTip()" aria-label="朗讀這一步">🔊 聽說明</button></div>
         <div class="btn-row">
-          <button class="btn btn-sec" onclick="step(-1)">⬅️ 上一步</button>
-          <button class="btn btn-acc" onclick="pulseGuide()">✨ 提示</button>
-          <button class="btn btn-pri" onclick="step(1)">下一步 ➡️</button>
+          <button class="btn btn-sec" onclick="step(-1)">上一筆</button>
+          
+          <button class="btn btn-pri" onclick="step(1)">下一筆</button>
         </div>
       </div>
     </div>
     <div class="toggles-bar">
+      <label><input type="checkbox" id="autoVoice"> 自動讀步驟</label>
       <label><input type="checkbox" id="guideChk" checked onchange="drawOverlays()"> 👁️ 描紅線</label>
       <label>透明度 <input type="range" id="guideAlpha" min="15" max="85" value="42" style="width:65px" oninput="drawOverlays()"></label>
       <label><input type="checkbox" id="gridChk" onchange="drawOverlays()"> 📏 九宮格</label>
@@ -511,32 +608,34 @@ button, select, input { min-height: 36px; }
     </div>
   </aside>
 
+  <aside class="panel free-coach"><div class="section-title">🎈 今天想畫什麼？</div><div class="free-hero">🌻</div><h2>沒有標準答案</h2><p>選個喜歡的顏色，畫一朵花、一隻怪獸，或你想像中的世界！</p><button class="btn btn-acc" onclick="freeSymmetry()">🦋 試試對稱魔法</button><button class="btn btn-sec" onclick="speakText('選一個喜歡的顏色，畫出你想像中的世界吧！')">🔊 聽聽小提示</button></aside>
   <!-- Canvas Stage -->
   <main class="stage">
     <div class="toolbar">
       <div style="display:flex;gap:5px">
         <button class="btn btn-sec" onclick="undo()">↩️ 復原</button>
         <button class="btn btn-sec" onclick="redo()">↪️ 重做</button>
-        <button class="btn btn-sec" onclick="clearPad()">🗑️ 清空</button>
+        <button class="btn btn-sec" onclick="confirmClear()">🗑️ 清空</button>
       </div>
       <div style="display:flex;gap:5px">
         <button class="btn btn-acc" onclick="saveArt()">⭐ 收藏</button>
         <button class="btn btn-pri" onclick="dlArt()">💾 下載</button>
       </div>
     </div>
-    <div class="canvas-wrap" id="wrap">
+    <div class="drawing-options"><label><input id="penOnly" type="checkbox"> 只用觸控筆</label><label><input id="pressureChk" type="checkbox" checked> 感壓粗細</label><span id="drawingStatus" role="status">準備好，就畫第一筆吧！</span></div>
+    <div class="canvas-space"><div class="canvas-wrap" id="wrap">
       <canvas class="layer" id="drawCanvas"></canvas>
       <canvas class="layer" id="guideCanvas"></canvas>
       <canvas class="layer" id="gridCanvas"></canvas>
-    </div>
+      <canvas class="layer" id="demoCanvas" aria-hidden="true"></canvas>
+    </div></div>
+    <div class="canvas-footer"><span id="practiceHint">畫錯沒關係，可以按復原再試一次。</span><button class="btn btn-acc" id="finishBtn" onclick="finishPractice()">✓ 我畫好了</button></div>
   </main>
 
   <!-- Tools & Palette Panel -->
-  <aside class="panel">
-    <div class="section-title">
-      <span>🖌️ 魔法畫具箱</span>
-      <span style="font-size:0.75rem;color:var(--muted)">粗細: <b id="szLbl">8 px</b> <input type="range" min="2" max="36" value="8" style="width:75px;vertical-align:middle" oninput="sz=+this.value;document.getElementById('szLbl').textContent=sz+' px'"></span>
-    </div>
+  <aside class="panel tools-panel">
+    <div class="section-title">🖌️ 我的畫具</div>
+    <label class="size-control">筆刷粗細 <b id="szLbl">8</b><input id="sizeRange" type="range" min="2" max="36" value="8" oninput="sz=+this.value;document.getElementById('szLbl').textContent=sz"></label>
     <div class="tool-grid">
       <button class="tool-btn active" onclick="setBrush('pencil')" id="b-pencil"><span>✏️</span>鉛筆</button>
       <button class="tool-btn" onclick="setBrush('marker')" id="b-marker"><span>🖍️</span>麥克筆</button>
@@ -559,7 +658,7 @@ button, select, input { min-height: 36px; }
     </div>
     <div>
       <span class="badge" id="bg-first">🎨 第一筆</span>
-      <span class="badge" id="bg-step">📐 完成拆解</span>
+      <span class="badge" id="bg-step">📐 練習完成</span>
       <span class="badge" id="bg-mix">🧪 混色達人</span>
       <span class="badge" id="bg-sym">🦋 對稱大師</span>
       <span class="badge" id="bg-save">🖼️ 收藏家</span>
@@ -605,7 +704,17 @@ const LESSONS = {
     {tip:"第4步：畫上小黑鼻頭與笑眼，再用混色實驗室調出橘色上色！", fn:(c,w,h)=>{c.beginPath();c.arc(w*.5,h*.44,h*.02,0,7);c.moveTo(w*.43,h*.33);c.quadraticCurveTo(w*.45,h*.3,w*.47,h*.33);c.moveTo(w*.53,h*.33);c.quadraticCurveTo(w*.55,h*.3,w*.57,h*.33);c.stroke()}}
   ]}
 };
-let curLes='cat',curStep=0,brush='pencil',col='#2B2D42',sz=8,hue=0,drawing=false,last=null,undos=[],redos=[];
+LESSONS.lines={name:'〰️ 線條練習',steps:[
+ {tip:'先從左邊的小點開始，慢慢畫一條橫線，像一座小橋。',fn:(c,w,h)=>{c.beginPath();c.moveTo(w*.22,h*.3);c.lineTo(w*.78,h*.3);c.stroke()}},
+ {tip:'這一次從上面往下畫，畫出一條直直的線。',fn:(c,w,h)=>{c.beginPath();c.moveTo(w*.5,h*.42);c.lineTo(w*.5,h*.78);c.stroke()}},
+ {tip:'讓線條彎起來，畫一條像小山丘的弧線。',fn:(c,w,h)=>{c.beginPath();c.moveTo(w*.22,h*.72);c.quadraticCurveTo(w*.35,h*.35,w*.44,h*.72);c.stroke()}}
+]};
+LESSONS.shapes={name:'🔵 形狀積木',steps:[
+ {tip:'從圓圈右邊開始，繞一圈，讓起點和終點碰在一起。',fn:(c,w,h)=>{c.beginPath();c.arc(w*.3,h*.35,h*.15,0,Math.PI*2);c.stroke()}},
+ {tip:'畫三條線，接成一個尖尖的三角形。',fn:(c,w,h)=>{c.beginPath();c.moveTo(w*.7,h*.2);c.lineTo(w*.55,h*.5);c.lineTo(w*.85,h*.5);c.closePath();c.stroke()}},
+ {tip:'最後用四條邊圍成正方形，像一扇小窗戶。',fn:(c,w,h)=>{c.beginPath();c.rect(w*.4,h*.61,h*.24,h*.24);c.stroke()}}
+]};
+let curLes='lines',curStep=0,brush='pencil',col='#2B2D42',sz=8,hue=0,drawing=false,last=null,undos=[],redos=[];
 const COLORS=['#2B2D42','#FF595E','#FF7A59','#FFCA3A','#8AC926','#06D6A0','#1982C4','#3EC1D3','#6A4C93','#B5179E','#8D5B4C','#FFFFFF'];
 const MIXES=[{n:'紅',h:'#FF595E',r:255,g:89,b:94},{n:'黃',h:'#FFCA3A',r:255,g:202,b:58},{n:'藍',h:'#1982C4',r:25,g:130,b:196},{n:'白',h:'#FFFFFF',r:255,g:255,b:255}];
 let mA=0,mB=1,deferredPrompt=null;
@@ -629,7 +738,7 @@ function init(){
 function resize(){
   // Keep one 4:3 drawing space so rotation never stretches or erases artwork.
   if(dc.dataset.ready)return;
-  [dc,gc,grc].forEach(c=>{c.width=1024;c.height=768});
+  [dc,gc,grc,document.getElementById('demoCanvas')].forEach(c=>{c.width=1024;c.height=768});
   dctx.fillStyle='#FFFFFF';dctx.fillRect(0,0,dc.width,dc.height);
   dc.dataset.ready='true';pushHist();drawOverlays();
 }
@@ -638,19 +747,21 @@ function undo(){if(undos.length<=1)return;redos.push(undos.pop());loadUrl(undos[
 function redo(){if(!redos.length)return;const u=redos.pop();undos.push(u);loadUrl(u)}
 let historyVersion=0;
 function loadUrl(u){const v=++historyVersion;const img=new Image();img.onload=()=>{if(v!==historyVersion)return;dctx.clearRect(0,0,dc.width,dc.height);dctx.drawImage(img,0,0,dc.width,dc.height)};img.src=u}
-function clearPad(){historyVersion++;dctx.fillStyle='#FFFFFF';dctx.fillRect(0,0,dc.width,dc.height);pushHist();toast('✨ 畫布已清空')}
+function confirmClear(){if(hasInk&&!confirm('要清空這張畫嗎？你也可以先按收藏保存。'))return;clearPad()}
+function clearPad(){stopDemo();historyVersion++;hasInk=false;practiceStrokes=0;dctx.fillStyle='#FFFFFF';dctx.fillRect(0,0,dc.width,dc.height);pushHist();toast('✨ 畫布已清空')}
 
+let pointerPressure=1,practiceStrokes=0,experience='learn',mode='step',hasInk=false;
 function stroke(p1,p2){
   const sym=document.getElementById('symSel').value,w=dc.width,h=dc.height;
   if(brush==='rainbow')hue=(hue+5)%360;
   const seg=(a,b)=>{
     dctx.save();dctx.lineCap='round';dctx.lineJoin='round';
-    let lw=sz;
+    const effectiveSize=sz*pointerPressure;let lw=effectiveSize;
     if(brush==='pencil'){dctx.globalAlpha=.85;dctx.strokeStyle=col}
-    else if(brush==='marker'){lw=sz*1.4;dctx.strokeStyle=col}
-    else if(brush==='water'){lw=sz*2;dctx.globalAlpha=.16;dctx.strokeStyle=col;dctx.shadowColor=col;dctx.shadowBlur=6}
-    else if(brush==='rainbow'){dctx.strokeStyle=`hsl(${hue},90%,55%)`;lw=sz*1.3}
-    else if(brush==='eraser'){dctx.strokeStyle='#FFFFFF';lw=sz*2.2}
+    else if(brush==='marker'){lw=effectiveSize*1.4;dctx.strokeStyle=col}
+    else if(brush==='water'){lw=effectiveSize*2;dctx.globalAlpha=.16;dctx.strokeStyle=col;dctx.shadowColor=col;dctx.shadowBlur=6}
+    else if(brush==='rainbow'){dctx.strokeStyle=`hsl(${hue},90%,55%)`;lw=effectiveSize*1.3}
+    else if(brush==='eraser'){dctx.strokeStyle='#FFFFFF';lw=effectiveSize*2.2}
     else if(brush==='star'){if(p1===p2||Math.hypot(b.x-a.x,b.y-a.y)>0){dctx.fillStyle=col;dctx.font=(sz*2)+'px sans-serif';dctx.fillText('★',b.x-sz,b.y+sz)}dctx.restore();return}
     dctx.lineWidth=lw;dctx.beginPath();dctx.moveTo(a.x,a.y);dctx.lineTo(b.x,b.y);dctx.stroke();dctx.restore();
   };
@@ -660,19 +771,20 @@ function stroke(p1,p2){
 }
 let activePointer=null;
 function point(e){const r=dc.getBoundingClientRect();return {x:(e.clientX-r.left)*dc.width/r.width,y:(e.clientY-r.top)*dc.height/r.height}}
-dc.onpointerdown=e=>{if(activePointer!==null||e.button>0)return;e.preventDefault();historyVersion++;activePointer=e.pointerId;dc.setPointerCapture(e.pointerId);drawing=true;last=point(e);stroke(last,last);badge('bg-first')};
-dc.onpointermove=e=>{if(!drawing||e.pointerId!==activePointer)return;const p=point(e);stroke(last,p);last=p};
-function endStroke(e){if(e.pointerId!==activePointer)return;drawing=false;activePointer=null;last=null;pushHist()}
+dc.onpointerdown=e=>{if(activePointer!==null||e.button>0||(document.getElementById('penOnly').checked&&e.pointerType!=='pen'))return;stopDemo();updatePressure(e);e.preventDefault();historyVersion++;activePointer=e.pointerId;dc.setPointerCapture(e.pointerId);drawing=true;last=point(e);stroke(last,last);badge('bg-first')};
+dc.onpointermove=e=>{if(!drawing||e.pointerId!==activePointer)return;updatePressure(e);const p=point(e);stroke(last,p);last=p};
+function endStroke(e){if(e.pointerId!==activePointer)return;drawing=false;activePointer=null;last=null;practiceStrokes++;hasInk=true;pushHist();document.getElementById('drawingStatus').textContent='畫得很好，照自己的速度慢慢來。'}
 dc.onpointerup=endStroke;dc.onpointercancel=endStroke;dc.onlostpointercapture=endStroke;
 
-function drawOverlays(){
+function drawOverlays(skipCurrent=false){
   const w=gc.width,h=gc.height;gctx.clearRect(0,0,w,h);grctx.clearRect(0,0,w,h);
   const les=LESSONS[curLes];
   if(document.getElementById('guideChk').checked){
     gctx.save();gctx.globalAlpha=document.getElementById('guideAlpha').value/100;gctx.lineCap='round';
     for(let i=0;i<=curStep;i++){
+      if(skipCurrent&&i===curStep)continue;
       gctx.lineWidth=i===curStep?4.5:2.5;gctx.setLineDash(i===curStep?[8,6]:[]);
-      gctx.strokeStyle=i===curStep?'#FF7A59':'#64748B';les.steps[i].fn(gctx,w,h);
+      gctx.strokeStyle=i===curStep?'#598D78':'#A7B4A8';les.steps[i].fn(gctx,w,h);
     }
     gctx.restore();
   }
@@ -688,15 +800,15 @@ function drawOverlays(){
   }
   const mc=document.getElementById('miniCanvas'),mctx=mc.getContext('2d');
   mctx.clearRect(0,0,mc.width,mc.height);mctx.lineCap='round';
-  for(let i=0;i<=curStep;i++){mctx.lineWidth=i===curStep?3:2;mctx.strokeStyle=i===curStep?'#FF7A59':'#334155';les.steps[i].fn(mctx,mc.width,mc.height)}
+  for(let i=0;i<=curStep;i++){mctx.lineWidth=i===curStep?3:2;mctx.strokeStyle=i===curStep?'#38735D':'#697A6F';les.steps[i].fn(mctx,mc.width,mc.height)}
   document.getElementById('stepBadge').textContent=`${les.name} · 第 ${curStep+1}/${les.steps.length} 步`;
   document.getElementById('stepTip').textContent=les.steps[curStep].tip;
 }
-function setLesson(k){curLes=k;curStep=0;document.querySelectorAll('.lesson-btn').forEach(b=>b.classList.remove('active'));document.getElementById('les-'+k).classList.add('active');drawOverlays()}
-function step(d){const l=LESSONS[curLes];if(curStep+d>=0&&curStep+d<l.steps.length){curStep+=d;if(curStep===l.steps.length-1)badge('bg-step');drawOverlays()}}
+function setLesson(k){if(k!==curLes&&hasInk&&!confirm('要開啟新的練習畫布嗎？尚未收藏的畫作會清除。'))return;stopDemo();if(k!==curLes)clearPad();practiceStrokes=0;curLes=k;curStep=mode==='grid'?LESSONS[k].steps.length-1:0;document.querySelectorAll('.lesson-btn').forEach(b=>b.classList.remove('active'));document.getElementById('les-'+k).classList.add('active');drawOverlays();autoSpeak()}
+function step(d){const l=LESSONS[curLes];if(curStep+d>=0&&curStep+d<l.steps.length){stopDemo();curStep+=d;practiceStrokes=0;drawOverlays();autoSpeak()}}
 function pulseGuide(){const a=document.getElementById('guideAlpha'),v=a.value;document.getElementById('guideChk').checked=true;a.value=85;drawOverlays();setTimeout(()=>{a.value=v;drawOverlays()},800)}
 function setBrush(b){brush=b;document.querySelectorAll('.tool-btn').forEach(x=>x.classList.remove('active'));document.getElementById('b-'+b).classList.add('active')}
-function setMode(m){
+function setMode(m){stopDemo();mode=m;
   document.querySelectorAll('.mode-tab').forEach(t=>t.classList.remove('active'));document.getElementById('tab-'+m).classList.add('active');
   document.getElementById('guideChk').checked=(m==='step'||m==='grid');
   document.getElementById('gridChk').checked=(m==='grid');
@@ -730,7 +842,65 @@ function openGallery(){
 function dlArt(){const a=document.createElement('a');a.download='little-painter.png';a.href=dc.toDataURL();a.click()}
 window.addEventListener('beforeinstallprompt',e=>{e.preventDefault();deferredPrompt=e});
 function installApp(){if(deferredPrompt)deferredPrompt.prompt();else toast('💡 請點瀏覽器分享按鈕 ➔「加入主畫面」即可安裝成 App！')}
-mix('init');init();
+let demoFrame=0,demoRunning=false;
+function updatePressure(e){pointerPressure=e.pointerType==='pen'&&document.getElementById('pressureChk').checked ? .45+Math.max(.05,e.pressure||.5)*1.1 : 1}
+function speakText(text){
+  if(!('speechSynthesis' in window)){toast('這個瀏覽器暫時無法朗讀，請看文字提示');return;}
+  speechSynthesis.cancel();const u=new SpeechSynthesisUtterance(text);u.lang='zh-TW';u.rate=.85;
+  const voices=speechSynthesis.getVoices();u.voice=voices.find(v=>/^zh[-_]TW$/i.test(v.lang))||voices.find(v=>/^zh/i.test(v.lang))||null;speechSynthesis.speak(u);
+}
+function speakTip(){speakText(LESSONS[curLes].steps[curStep].tip)}
+function autoSpeak(){if(document.getElementById('autoVoice').checked)speakTip()}
+function stopDemo(){
+  if(!demoRunning)return;cancelAnimationFrame(demoFrame);demoRunning=false;
+  const c=document.getElementById('demoCanvas');c.getContext('2d').clearRect(0,0,c.width,c.height);drawOverlays();
+}
+// Sample the same lesson geometry into short segments, then reveal them in stroke order.
+function lessonPaths(fn,w,h){
+  const paths=[];let path=[],x=0,y=0,sx=0,sy=0;
+  function move(a,b){if(path.length>1)paths.push(path);path=[{x:a,y:b}];x=sx=a;y=sy=b;}
+  function line(a,b){if(!path.length){move(a,b);return;}const ox=x,oy=y,n=Math.max(1,Math.ceil(Math.hypot(a-x,b-y)/5));for(let i=1;i<=n;i++)path.push({x:ox+(a-ox)*i/n,y:oy+(b-oy)*i/n});x=a;y=b;}
+  const c={beginPath(){if(path.length>1)paths.push(path);path=[];},moveTo:move,lineTo:line,closePath(){line(sx,sy)},stroke(){if(path.length>1)paths.push(path);path=[];},
+    arc(cx,cy,r,a,b){this.ellipse(cx,cy,r,r,0,a,b)},
+    ellipse(cx,cy,rx,ry,rot,a,b){const end=Math.min(b,a+Math.PI*2),n=Math.max(16,Math.ceil((end-a)*Math.max(rx,ry)/5));for(let i=0;i<=n;i++){const t=a+(end-a)*i/n,px=cx+rx*Math.cos(t)*Math.cos(rot)-ry*Math.sin(t)*Math.sin(rot),py=cy+rx*Math.cos(t)*Math.sin(rot)+ry*Math.sin(t)*Math.cos(rot);if(i===0&&!path.length)move(px,py);else line(px,py)}},
+    quadraticCurveTo(cx,cy,ex,ey){const ox=x,oy=y;for(let i=1;i<=40;i++){const t=i/40;line((1-t)**2*ox+2*(1-t)*t*cx+t*t*ex,(1-t)**2*oy+2*(1-t)*t*cy+t*t*ey)}},
+    bezierCurveTo(ax,ay,bx,by,ex,ey){const ox=x,oy=y;for(let i=1;i<=50;i++){const t=i/50;line((1-t)**3*ox+3*(1-t)**2*t*ax+3*(1-t)*t*t*bx+t**3*ex,(1-t)**3*oy+3*(1-t)**2*t*ay+3*(1-t)*t*t*by+t**3*ey)}},
+    rect(a,b,rw,rh){move(a,b);line(a+rw,b);line(a+rw,b+rh);line(a,b+rh);line(a,b)}
+  };fn(c,w,h);if(path.length>1)paths.push(path);return paths;
+}
+function playDemo(){
+  stopDemo();const canvas=document.getElementById('demoCanvas'),c=canvas.getContext('2d');
+  const paths=lessonPaths(LESSONS[curLes].steps[curStep].fn,canvas.width,canvas.height);const count=paths.reduce((a,p)=>a+p.length,0);if(!count)return;
+  demoRunning=true;drawOverlays(true);const start=performance.now(),duration=Math.min(6500,Math.max(2200,count*13));
+  document.getElementById('drawingStatus').textContent='看小圓點怎麼走，再換你試試！';
+  function frame(now){
+    if(!demoRunning)return;c.clearRect(0,0,canvas.width,canvas.height);let remain=Math.ceil(Math.min(1,(now-start)/duration)*count),tip=null;
+    c.strokeStyle='#39765F';c.lineWidth=7;c.lineCap='round';c.lineJoin='round';
+    for(const p of paths){const n=Math.min(remain,p.length);if(n<=0)break;c.beginPath();c.moveTo(p[0].x,p[0].y);for(let i=1;i<n;i++)c.lineTo(p[i].x,p[i].y);c.stroke();tip=p[n-1];remain-=n;}
+    if(tip){c.fillStyle='#FFCA3A';c.strokeStyle='#7D4823';c.lineWidth=2;c.beginPath();c.arc(tip.x,tip.y,11,0,Math.PI*2);c.fill();c.stroke();}
+    if(now-start<duration)demoFrame=requestAnimationFrame(frame);else{stopDemo();document.getElementById('drawingStatus').textContent='換你畫畫看！想再看一次就按「看老師畫」。';}
+  }demoFrame=requestAnimationFrame(frame);autoSpeak();
+}
+function setExperience(k){
+  stopDemo();experience=k;document.body.classList.toggle('free-mode',k==='free');
+  document.getElementById('learnBtn').classList.toggle('active',k==='learn');document.getElementById('freeBtn').classList.toggle('active',k==='free');
+  document.getElementById('experienceHint').textContent=k==='free'?'選個顏色，畫你想畫的！':'先看示範，再換你畫！';
+  document.getElementById('finishBtn').textContent=k==='free'?'⭐ 收藏這幅畫':'✓ 我畫好了';
+  document.getElementById('practiceHint').textContent=k==='free'?'每個想法，都可以畫出來。':'畫錯沒關係，可以按復原再試一次。';
+  if(k==='free'){setBrush('marker');sz=18;document.getElementById('sizeRange').value=18;document.getElementById('szLbl').textContent='18';document.getElementById('guideChk').checked=false;document.getElementById('gridChk').checked=false;document.getElementById('symSel').value='none';}
+  else setMode('step');drawOverlays();
+}
+function freeSymmetry(){document.getElementById('symSel').value=document.getElementById('symSel').value==='v'?'none':'v';drawOverlays();toast(document.getElementById('symSel').value==='v'?'左右會一起畫，試試看！':'回到自由畫畫')}
+function finishPractice(){
+  if(experience==='free'){saveArt();return;}
+  if(!practiceStrokes){toast('先在畫布上試著畫幾筆，再來完成練習吧！');return;}
+  if(curStep<LESSONS[curLes].steps.length-1){step(1);toast('這一步練習完成！一起看看下一筆。');}
+  else{badge('bg-step');toast('你完成了一次練習！喜歡的話，可以收藏作品。');document.getElementById('drawingStatus').textContent='練習完成！這是你自己畫出來的作品。';}
+  practiceStrokes=0;
+}
+window.addEventListener('pagehide',()=>{stopDemo();if('speechSynthesis' in window)speechSynthesis.cancel()});
+
+mix('init');init();setLesson('lines');
 
 if ('serviceWorker' in navigator && (location.protocol === 'https:' || location.hostname === 'localhost')) {
   navigator.serviceWorker.register('./service-worker.js', {updateViaCache:'none'}).then(r=>r.update()).catch(() => {});

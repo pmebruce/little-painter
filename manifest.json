@@ -1,12 +1,12 @@
 {
-  "name": "小畫家魔法學院 — 兒童繪畫技巧學習 PWA",
-  "short_name": "小畫家學院",
-  "description": "專為兒童設計的分步幾何拆解、九宮格比例觀察、對稱魔法與三原色混色學習 PWA",
+  "name": "小小畫畫教室",
+  "short_name": "小小畫畫",
+  "description": "iPad 優先的兒童繪畫學習：逐筆示範、語音提示、線條形狀練習與自由玩畫",
   "start_url": "./index.html",
   "scope": "./",
   "display": "standalone",
-  "background_color": "#FFFDF7",
-  "theme_color": "#FF7A59",
+  "background_color": "#F7F3E8",
+  "theme_color": "#F7F3E8",
   "icons": [
     {
       "src": "icon-192.png",
