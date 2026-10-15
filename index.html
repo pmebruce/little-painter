@@ -554,6 +554,61 @@ header { background:var(--bg); color:var(--text); box-shadow:none; padding-top:m
 #currentColorPreview { width:22px; height:22px; flex:none; border-radius:50%; border:2px solid white; box-shadow:0 0 0 1px #DDDCD1; }
 @media(max-width:699px){.palette { grid-template-columns:repeat(6,minmax(0,1fr));gap:9px; }.palette-tabs button { min-height:44px; }.custom-color-row { justify-content:flex-start; }.current-color { margin-top:2px; }}
 
+
+/* One-screen iPad desk, with full-size controls and expandable secondary settings. */
+.compact-brush { display:none; }.focus-button { display:none; }
+.dialog-heading { display:flex; justify-content:space-between; align-items:center; gap:16px; margin-bottom:16px; }.dialog-heading h2 { font-size:21px; }.dialog-heading .btn { flex:none; min-height:44px; }
+#settingsModal .modal-card { max-width:680px; display:flex; flex-direction:column; gap:12px; max-height:88dvh; padding:22px; }#settingsModal h3 { font-size:16px; margin-top:4px; }
+#settingsModal .mode-tabs { display:grid; grid-template-columns:repeat(2,minmax(0,1fr)); width:100%; }#settingsModal .mode-tab { min-height:48px; font-size:16px; }
+#settingsModal .toggles-bar { border:0; font-size:15px; }#settingsModal .toggles-bar label { min-height:44px; }
+#settingsModal .drawing-options { font-size:15px; padding:0; }#drawingStatus { display:none; }
+.extra-brushes { display:grid; grid-template-columns:repeat(3,minmax(0,1fr)); gap:8px; }.extra-brushes .tool-btn { min-height:62px; font-size:16px; }
+#subjectChoices .lesson-grid { grid-template-columns:repeat(3,minmax(0,1fr)); gap:12px; }#subjectChoices .lesson-btn { min-height:66px; font-size:17px; }
+#settingsModal .mixer { flex-direction:row; padding:12px; }#settingsModal .slot { width:44px; height:44px; }#settingsModal .mix-out { width:48px; height:48px; }
+.tools-panel>.section-title { display:flex; flex-direction:row; align-items:center; justify-content:space-between; flex-wrap:nowrap; gap:6px; }.tools-panel>.section-title>.btn { flex:none; padding:6px; font-size:13px; }
+.coach-panel>.section-title { flex-direction:row; align-items:center; }.teacher-heading { display:none; }
+.coach-panel .teacher-actions,.coach-panel .btn-row { flex:none; }.coach-panel .teacher-actions { display:flex; }.coach-panel .teacher-actions .btn { padding:6px 10px; white-space:nowrap; }
+#installSettings .pill-btn { min-height:44px; }
+@media(min-width:700px) and (min-height:500px) {
+ body { height:100dvh; min-height:0; overflow:hidden; padding:0 env(safe-area-inset-right) env(safe-area-inset-bottom) env(safe-area-inset-left); }
+ header { flex:none; padding:8px 10px; min-height:60px; }
+ .header-top { display:flex; flex-wrap:nowrap; gap:10px; width:100%; }.brand { gap:7px; flex:none; }.brand-icon { width:32px; height:32px; font-size:23px; border-radius:10px; }.brand-title { font-size:18px; }.brand-sub { display:none; }
+ .experience-switch { flex:none; gap:2px; background:#E7EDDD; padding:3px; }.experience-switch button { min-height:44px; font-size:14px; padding:5px 9px; }
+ .header-btns { margin-left:auto; gap:5px; }.pill-btn { min-height:44px; font-size:14px; padding:5px 8px; white-space:nowrap; }.focus-button { display:block; }
+ .workspace { flex:1; min-height:0; display:grid; grid-template-columns:minmax(0,1fr) 216px; grid-template-rows:auto minmax(0,1fr); gap:8px; padding:0 8px 8px; max-width:2000px; }
+ .panel { padding:8px 10px; gap:6px; overflow:hidden; min-height:0; border-radius:16px; }
+ .coach-panel { grid-column:1; grid-row:1; display:flex; padding:6px 10px; gap:5px; }
+ .coach-panel>.section-title { display:flex; flex-wrap:nowrap; gap:6px; min-height:44px; }
+ .coach-panel>.section-title>button { flex:none; font-size:14px; min-height:44px; padding:5px 8px; }
+ #stepBadge { flex:1; min-width:0; font-size:14px!important; line-height:1.3; }
+ .teacher-actions { gap:5px; }.coach-panel .teacher-actions .btn { min-height:44px; font-size:14px; padding:5px 7px; }
+ .coach-panel .btn-row { gap:5px; }.coach-panel .btn-row .btn { min-height:44px; font-size:14px; padding:5px 8px; white-space:nowrap; }
+ .coach-row { display:block; }.coach-panel .preview-box { display:none; }.coach-panel .step-info { width:100%; display:block; }.step-tip { font-size:16px; line-height:1.45; min-height:0; padding:7px 10px; }
+ .stage { grid-column:1; grid-row:2; height:auto; min-height:0; border-radius:16px; }.toolbar { flex:none; min-height:48px; padding:3px 7px; }.toolbar .btn { min-height:44px; font-size:15px; padding:5px 9px; }
+ .canvas-space { min-height:0; padding:6px; }.canvas-wrap { width:min(100cqw,calc(100cqh * 4 / 3)); max-height:none; }
+ .canvas-footer { flex:none; min-height:48px; padding:3px 9px; }.canvas-footer .btn { min-height:44px; font-size:15px; padding:5px 10px; }.canvas-footer>span { font-size:13px; }
+ .tools-panel { grid-column:2; grid-row:1/3; display:flex; }.tools-panel>.section-title { min-height:44px; flex:none; font-size:16px; }.tools-panel>.section-title .btn { min-height:44px; font-size:13px; }
+ .size-control { flex:none; flex-wrap:nowrap; font-size:14px; min-height:32px; gap:5px; }.size-control b { min-width:18px; }.size-control input { flex:1; min-width:0; width:70px; height:32px; min-height:32px; }
+ .tools-panel .tool-grid { flex:none; grid-template-columns:repeat(3,minmax(0,1fr)); gap:5px; }.tools-panel .tool-btn,body.free-mode .tools-panel .tool-btn { min-height:46px; height:46px; padding:2px 0; gap:0; font-size:14px; line-height:1.2; }.tools-panel .tool-btn>span { font-size:20px; }
+ .tools-panel .palette-heading { display:none; }.palette-tabs { flex:none; padding:2px; gap:3px; }.palette-tabs button { min-height:44px; font-size:15px; }
+ .tools-panel .palette { flex:none; grid-template-columns:repeat(4,minmax(0,1fr)); gap:7px; padding:4px 2px; }.tools-panel .palette .swatch { max-width:none; }
+ .custom-color-row { flex:none; min-height:40px; padding:3px 6px; }.custom-color-row input { min-height:32px; height:32px; width:42px; }.custom-color-row label { font-size:15px; }
+ .tools-panel .current-color { min-height:24px; font-size:13px; }.tools-panel .current-color #currentColorPreview { width:18px; height:18px; }
+ .free-coach,body.free-mode .free-coach { display:none; }body.free-mode .workspace,body.drawing-focus .workspace { grid-template-rows:minmax(0,1fr); }body.free-mode .stage,body.drawing-focus .stage { grid-row:1; }body.free-mode .tools-panel,body.drawing-focus .tools-panel { grid-row:1; }body.drawing-focus .coach-panel { display:none; }
+ body.free-mode .tools-panel #b-water,body.free-mode .tools-panel #b-pencil { display:none; }
+ body.free-mode .tools-panel .tool-grid { grid-template-columns:repeat(2,minmax(0,1fr)); }
+}
+@media(min-width:700px) and (max-width:959px) and (min-height:500px) {
+ .coach-panel { grid-column:1/-1; }.tools-panel { grid-row:2; }.workspace { grid-template-columns:minmax(0,1fr) 216px; }.brand-title { font-size:16px; }.brand-icon { display:none; }.experience-switch button { padding:4px 7px; }.header-top { gap:6px; }.pill-btn { font-size:13px; padding:5px 7px; }
+}
+@media(min-width:700px) and (min-height:500px) and (max-height:720px) {
+ .tools-panel .tool-grid { display:none!important; }.compact-brush { display:block; min-height:44px; flex:none; font-size:16px; padding:5px 8px; }
+ .tools-panel .current-color { display:none; }
+}
+@media(max-width:699px) {
+ .header-top { flex-wrap:wrap; }.experience-switch { order:3; width:100%; background:#E7EDDD; }.experience-switch button { flex:1; }.header-btns { gap:4px; }.coach-panel>.section-title { flex-wrap:wrap; }.coach-panel>.section-title>button { flex:none; }.coach-panel #stepBadge { flex:1; }.coach-panel .teacher-actions,.coach-panel .btn-row { flex:1; }.coach-panel .preview-box { width:90px; }
+}
+
 </style>
 </head>
 <body>
@@ -567,6 +622,8 @@ header { background:var(--bg); color:var(--text); box-shadow:none; padding-top:m
       </div>
     </div>
     <div class="header-btns">
+      <button class="pill-btn focus-button" id="focusBtn" onclick="toggleFocus()" aria-pressed="false">放大畫布</button>
+      <button class="pill-btn" onclick="openPanel('settingsModal')">更多設定</button>
       <button class="pill-btn" onclick="openGallery()">🖼️ 作品集 (<span id="galCnt">0</span>)</button>
       <button class="pill-btn" onclick="installApp()">📲 安裝</button>
     </div>
@@ -696,6 +753,8 @@ header { background:var(--bg); color:var(--text); box-shadow:none; padding-top:m
     <div id="galGrid" style="display:grid;grid-template-columns:repeat(auto-fill,minmax(120px,1fr));gap:8px"></div>
   </div>
 </div>
+<div class="modal" id="subjectsModal" role="dialog" aria-modal="true" aria-labelledby="subjectsTitle"><div class="modal-card"><div class="dialog-heading"><h2 id="subjectsTitle">今天想畫什麼？</h2><button class="btn btn-sec" onclick="closePanel('subjectsModal')">關閉</button></div><div id="subjectChoices"></div></div></div>
+<div class="modal" id="settingsModal" role="dialog" aria-modal="true" aria-labelledby="settingsTitle"><div class="modal-card"><div class="dialog-heading"><h2 id="settingsTitle">玩法與畫布設定</h2><button class="btn btn-sec" onclick="closePanel('settingsModal')">關閉</button></div><h3>選個玩法</h3><div id="modeChoices"></div><h3>輔助與觸控筆</h3><div id="drawingSettings"></div><h3>畫筆</h3><div id="extraBrushes" class="extra-brushes"></div><h3>混色實驗</h3><div id="mixSettings"></div><h3>我的練習徽章</h3><div id="badgeSettings"></div><div id="installSettings"></div></div></div>
 <div class="toast" id="toast"></div>
 
 <script>
@@ -836,10 +895,10 @@ function drawOverlays(skipCurrent=false){
   document.getElementById('stepBadge').textContent=`${les.name} · 第 ${curStep+1}/${les.steps.length} 步`;
   document.getElementById('stepTip').textContent=les.steps[curStep].tip;
 }
-function setLesson(k){if(k!==curLes&&hasInk&&!confirm('要開啟新的練習畫布嗎？尚未收藏的畫作會清除。'))return;stopDemo();if(k!==curLes)clearPad();practiceStrokes=0;curLes=k;curStep=mode==='grid'?LESSONS[k].steps.length-1:0;document.querySelectorAll('.lesson-btn').forEach(b=>b.classList.remove('active'));document.getElementById('les-'+k).classList.add('active');drawOverlays();autoSpeak()}
+function setLesson(k){if(k!==curLes&&hasInk&&!confirm('要開啟新的練習畫布嗎？尚未收藏的畫作會清除。'))return;stopDemo();if(k!==curLes)clearPad();practiceStrokes=0;curLes=k;curStep=mode==='grid'?LESSONS[k].steps.length-1:0;document.querySelectorAll('.lesson-btn').forEach(b=>b.classList.remove('active'));document.getElementById('les-'+k).classList.add('active');drawOverlays();autoSpeak();closePanel('subjectsModal')}
 function step(d){const l=LESSONS[curLes];if(curStep+d>=0&&curStep+d<l.steps.length){stopDemo();curStep+=d;practiceStrokes=0;drawOverlays();autoSpeak()}}
 function pulseGuide(){const a=document.getElementById('guideAlpha'),v=a.value;document.getElementById('guideChk').checked=true;a.value=85;drawOverlays();setTimeout(()=>{a.value=v;drawOverlays()},800)}
-function setBrush(b){brush=b;document.querySelectorAll('.tool-btn').forEach(x=>x.classList.remove('active'));document.getElementById('b-'+b).classList.add('active')}
+function setBrush(b){brush=b;document.querySelectorAll('.tool-btn').forEach(x=>x.classList.toggle('active',x.dataset.brush===b||x.id==='b-'+b));const names={pencil:'鉛筆',marker:'麥克筆',water:'水彩筆',rainbow:'彩虹筆',star:'星星筆',eraser:'橡皮擦'};document.getElementById('compactBrush').textContent=names[b]+' · 換筆刷'}
 function setMode(m){stopDemo();mode=m;
   document.querySelectorAll('.mode-tab').forEach(t=>t.classList.remove('active'));document.getElementById('tab-'+m).classList.add('active');
   document.getElementById('guideChk').checked=(m==='step'||m==='grid');
@@ -847,6 +906,7 @@ function setMode(m){stopDemo();mode=m;
   document.getElementById('symSel').value=(m==='symmetry'?'v':'none');
   if(m==='grid')curStep=LESSONS[curLes].steps.length-1;
   if(m==='color')setBrush('water');
+  document.querySelector('.stage').dataset.mode=m;
   drawOverlays();
 }
 function mix(s){
@@ -932,7 +992,29 @@ function finishPractice(){
 }
 window.addEventListener('pagehide',()=>{stopDemo();if('speechSynthesis' in window)speechSynthesis.cancel()});
 
-mix('init');init();setLesson('lines');
+
+let focusedDrawing=false,returnFocus=null;
+function openPanel(id){stopDemo();returnFocus=document.activeElement;document.getElementById(id).classList.add('open');document.getElementById(id).querySelector('button').focus()}
+function closePanel(id){document.getElementById(id).classList.remove('open');if(returnFocus&&returnFocus.isConnected)returnFocus.focus()}
+function toggleFocus(){focusedDrawing=!focusedDrawing;document.body.classList.toggle('drawing-focus',focusedDrawing);const b=document.getElementById('focusBtn');b.textContent=focusedDrawing?'顯示教學':'放大畫布';b.setAttribute('aria-pressed',String(focusedDrawing))}
+function setupCompactLayout(){
+ const header=document.querySelector('.header-top'),buttons=document.querySelector('.header-btns');header.insertBefore(document.querySelector('.experience-switch'),buttons);const hint=document.getElementById('experienceHint');hint.hidden=true;header.append(hint);document.querySelector('.experience-bar').remove();
+ const title=document.querySelector('.coach-panel>.section-title');title.firstElementChild.classList.add('teacher-heading');
+ const topics=document.createElement('button');topics.className='btn btn-sec';topics.textContent='換主題';topics.onclick=()=>openPanel('subjectsModal');title.insertBefore(topics,title.firstChild);
+ title.append(document.querySelector('.teacher-actions'),document.querySelector('.btn-row'));
+ document.getElementById('subjectChoices').append(document.querySelector('.lesson-grid'));
+ document.getElementById('modeChoices').append(document.querySelector('.mode-tabs'));
+ document.getElementById('drawingSettings').append(document.querySelector('.toggles-bar'),document.querySelector('.drawing-options'));
+ document.getElementById('mixSettings').append(document.querySelector('.mixer'));
+ const badges=document.querySelector('.tools-panel .badge').parentElement;document.getElementById('badgeSettings').append(badges);
+ const toolsTitle=document.querySelector('.tools-panel>.section-title');const more=document.createElement('button');more.className='btn btn-sec';more.textContent='更多畫具';more.onclick=()=>openPanel('settingsModal');toolsTitle.append(more);
+ const quick=document.createElement('button');quick.className='btn btn-sec compact-brush';quick.id='compactBrush';quick.textContent='鉛筆 · 換筆刷';quick.onclick=()=>openPanel('settingsModal');toolsTitle.after(quick);
+ for(const original of document.querySelectorAll('.tools-panel .tool-btn')){const copy=original.cloneNode(true);copy.removeAttribute('id');copy.removeAttribute('onclick');const kind=original.id.slice(2);copy.dataset.brush=kind;original.dataset.brush=kind;copy.onclick=()=>{setBrush(kind);closePanel('settingsModal')};document.getElementById('extraBrushes').append(copy)}
+ const install=[...buttons.querySelectorAll('button')].find(b=>b.getAttribute('onclick')==='installApp()');if(install)document.getElementById('installSettings').append(install);
+ for(const modal of document.querySelectorAll('#subjectsModal,#settingsModal')){modal.addEventListener('click',e=>{if(e.target===modal)closePanel(modal.id)});modal.addEventListener('keydown',e=>{if(e.key==='Escape')closePanel(modal.id);if(e.key==='Tab'){const items=[...modal.querySelectorAll('button,input,select')].filter(x=>x.getClientRects().length);const first=items[0],last=items[items.length-1];if(e.shiftKey&&document.activeElement===first){e.preventDefault();last.focus()}else if(!e.shiftKey&&document.activeElement===last){e.preventDefault();first.focus()}}})}
+}
+
+setupCompactLayout();mix('init');init();setLesson('lines');
 
 if ('serviceWorker' in navigator && (location.protocol === 'https:' || location.hostname === 'localhost')) {
   navigator.serviceWorker.register('./service-worker.js', {updateViaCache:'none'}).then(r=>r.update()).catch(() => {});
@@ -940,3 +1022,4 @@ if ('serviceWorker' in navigator && (location.protocol === 'https:' || location.
 </script>
 </body>
 </html>
+
