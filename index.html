@@ -714,7 +714,7 @@ header { background:var(--bg); color:var(--text); box-shadow:none; padding-top:m
       <button class="tool-btn active" onclick="setBrush('pencil')" id="b-pencil"><span>✏️</span>鉛筆</button>
       <button class="tool-btn" onclick="setBrush('marker')" id="b-marker"><span>🖍️</span>麥克筆</button>
       <button class="tool-btn" onclick="setBrush('water')" id="b-water"><span>💧</span>水彩筆</button>
-      <button class="tool-btn" onclick="setBrush('rainbow')" id="b-rainbow"><span>🌈</span>彩虹筆</button>
+      <button class="tool-btn" onclick="setBrush('crayon')" id="b-crayon"><span>🖍️</span>蠟筆</button>
       <button class="tool-btn" onclick="setBrush('star')" id="b-star"><span>⭐</span>星星筆</button>
       <button class="tool-btn" onclick="setBrush('eraser')" id="b-eraser"><span>🧽</span>橡皮擦</button>
     </div>
@@ -794,7 +794,7 @@ LESSONS.shapes={name:'🔵 形狀積木',steps:[
  {tip:'畫三條線，接成一個尖尖的三角形。',fn:(c,w,h)=>{c.beginPath();c.moveTo(w*.7,h*.2);c.lineTo(w*.55,h*.5);c.lineTo(w*.85,h*.5);c.closePath();c.stroke()}},
  {tip:'最後用四條邊圍成正方形，像一扇小窗戶。',fn:(c,w,h)=>{c.beginPath();c.rect(w*.4,h*.61,h*.24,h*.24);c.stroke()}}
 ]};
-let curLes='lines',curStep=0,brush='pencil',col='#2B2D42',sz=8,hue=0,drawing=false,last=null,undos=[],redos=[];
+let curLes='lines',curStep=0,brush='pencil',col='#2B2D42',sz=8,drawing=false,last=null,undos=[],redos=[];
 const COLOR_GROUPS={
  basic:{name:'基本色',colors:[['墨黑','#2B2D42'],['白色','#FFFFFF'],['紅色','#FF595E'],['橘色','#FF7A59'],['黃色','#FFCA3A'],['草綠','#8AC926'],['薄荷綠','#06D6A0'],['湖水藍','#3EC1D3'],['藍色','#1982C4'],['深藍','#24478F'],['紫色','#6A4C93'],['桃紅','#B5179E'],['粉紅','#F58DB4'],['咖啡','#8D5B4C'],['灰色','#9CA3AF'],['金黃','#D7A52B']]},
  pastel:{name:'粉彩色',colors:[['櫻花粉','#F9CBD7'],['蜜桃粉','#F5B4AA'],['杏桃橘','#FFD2AE'],['奶油黃','#FFF1AB'],['檸檬黃','#F6F5BF'],['嫩芽綠','#D8E7AE'],['開心果綠','#C4D9B2'],['薄荷奶綠','#BFE7D0'],['淺湖水綠','#BCE6DF'],['天空藍','#B8DCF0'],['粉霧藍','#B9CBE7'],['薰衣草紫','#CCC1E7'],['丁香紫','#E0C2E6'],['玫瑰粉','#E8BBC8'],['奶茶色','#DFCDB6'],['暖灰','#D9D9D3']]},
@@ -842,16 +842,33 @@ function confirmClear(){if(hasInk&&!confirm('要清空這張畫嗎？你也可�
 function clearPad(){stopDemo();historyVersion++;hasInk=false;practiceStrokes=0;dctx.fillStyle='#FFFFFF';dctx.fillRect(0,0,dc.width,dc.height);pushHist();toast('✨ 畫布已清空')}
 
 let pointerPressure=1,practiceStrokes=0,experience='learn',mode='step',hasInk=false;
+// Cache a paper-grain wax texture; fixed canvas coordinates keep grain stable
+// across slow/fast pointer events and repeated strokes deepen the pigment.
+let crayonColor=null,crayonPattern=null;
+function crayonTexture(color){
+  if(crayonPattern&&crayonColor===color)return crayonPattern;
+  const tile=document.createElement('canvas');tile.width=tile.height=64;
+  const ctx=tile.getContext('2d');ctx.fillStyle=color;
+  ctx.globalAlpha=.18;ctx.fillRect(0,0,64,64);
+  let seed=7391;
+  const random=()=>{seed=(Math.imul(seed,1664525)+1013904223)>>>0;return seed/4294967296};
+  for(let i=0;i<2600;i++){
+    const x=random()*64,y=random()*64;
+    ctx.globalAlpha=.2+random()*.6;
+    ctx.fillRect(x,y,.5+random()*1.2,.5+random()*1.2);
+  }
+  crayonColor=color;crayonPattern=dctx.createPattern(tile,'repeat');
+  return crayonPattern;
+}
 function stroke(p1,p2){
   const sym=document.getElementById('symSel').value,w=dc.width,h=dc.height;
-  if(brush==='rainbow')hue=(hue+5)%360;
   const seg=(a,b)=>{
     dctx.save();dctx.lineCap='round';dctx.lineJoin='round';
     const effectiveSize=sz*pointerPressure;let lw=effectiveSize;
     if(brush==='pencil'){dctx.globalAlpha=.85;dctx.strokeStyle=col}
     else if(brush==='marker'){lw=effectiveSize*1.4;dctx.strokeStyle=col}
     else if(brush==='water'){lw=effectiveSize*2;dctx.globalAlpha=.16;dctx.strokeStyle=col;dctx.shadowColor=col;dctx.shadowBlur=6}
-    else if(brush==='rainbow'){dctx.strokeStyle=`hsl(${hue},90%,55%)`;lw=effectiveSize*1.3}
+    else if(brush==='crayon'){dctx.strokeStyle=crayonTexture(col);lw=effectiveSize*1.6}
     else if(brush==='eraser'){dctx.strokeStyle='#FFFFFF';lw=effectiveSize*2.2}
     else if(brush==='star'){if(p1===p2||Math.hypot(b.x-a.x,b.y-a.y)>0){dctx.fillStyle=col;dctx.font=(sz*2)+'px sans-serif';dctx.fillText('★',b.x-sz,b.y+sz)}dctx.restore();return}
     dctx.lineWidth=lw;dctx.beginPath();dctx.moveTo(a.x,a.y);dctx.lineTo(b.x,b.y);dctx.stroke();dctx.restore();
@@ -898,7 +915,7 @@ function drawOverlays(skipCurrent=false){
 function setLesson(k){if(k!==curLes&&hasInk&&!confirm('要開啟新的練習畫布嗎？尚未收藏的畫作會清除。'))return;stopDemo();if(k!==curLes)clearPad();practiceStrokes=0;curLes=k;curStep=mode==='grid'?LESSONS[k].steps.length-1:0;document.querySelectorAll('.lesson-btn').forEach(b=>b.classList.remove('active'));document.getElementById('les-'+k).classList.add('active');drawOverlays();autoSpeak();closePanel('subjectsModal')}
 function step(d){const l=LESSONS[curLes];if(curStep+d>=0&&curStep+d<l.steps.length){stopDemo();curStep+=d;practiceStrokes=0;drawOverlays();autoSpeak()}}
 function pulseGuide(){const a=document.getElementById('guideAlpha'),v=a.value;document.getElementById('guideChk').checked=true;a.value=85;drawOverlays();setTimeout(()=>{a.value=v;drawOverlays()},800)}
-function setBrush(b){brush=b;document.querySelectorAll('.tool-btn').forEach(x=>x.classList.toggle('active',x.dataset.brush===b||x.id==='b-'+b));const names={pencil:'鉛筆',marker:'麥克筆',water:'水彩筆',rainbow:'彩虹筆',star:'星星筆',eraser:'橡皮擦'};document.getElementById('compactBrush').textContent=names[b]+' · 換筆刷'}
+function setBrush(b){brush=b;document.querySelectorAll('.tool-btn').forEach(x=>x.classList.toggle('active',x.dataset.brush===b||x.id==='b-'+b));const names={pencil:'鉛筆',marker:'麥克筆',water:'水彩筆',crayon:'蠟筆',star:'星星筆',eraser:'橡皮擦'};document.getElementById('compactBrush').textContent=names[b]+' · 換筆刷'}
 function setMode(m){stopDemo();mode=m;
   document.querySelectorAll('.mode-tab').forEach(t=>t.classList.remove('active'));document.getElementById('tab-'+m).classList.add('active');
   document.getElementById('guideChk').checked=(m==='step'||m==='grid');
