@@ -1,4 +1,4 @@
-const CACHE_NAME = 'little-painter-pwa-v7-crayon';
+const CACHE_NAME = 'little-painter-pwa-v8-viewport';
 const ASSETS = ['./', './index.html', './manifest.json', './icon.svg', './icon-180.png', './icon-192.png', './icon-512.png'];
 self.addEventListener('install', event => {
   event.waitUntil(caches.open(CACHE_NAME).then(c => c.addAll(ASSETS)).then(() => self.skipWaiting()));

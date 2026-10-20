@@ -609,6 +609,58 @@ header { background:var(--bg); color:var(--text); box-shadow:none; padding-top:m
  .header-top { flex-wrap:wrap; }.experience-switch { order:3; width:100%; background:#E7EDDD; }.experience-switch button { flex:1; }.header-btns { gap:4px; }.coach-panel>.section-title { flex-wrap:wrap; }.coach-panel>.section-title>button { flex:none; }.coach-panel #stepBadge { flex:1; }.coach-panel .teacher-actions,.coach-panel .btn-row { flex:1; }.coach-panel .preview-box { width:90px; }
 }
 
+
+/* Fit the actual Safari content area; keep controls at readable touch sizes. */
+html { width:100%; height:100%; overflow-x:hidden; -webkit-text-size-adjust:100%; text-size-adjust:100%; }
+body { width:100%; max-width:100%; }
+.canvas-space { overflow:hidden; }
+.canvas-wrap { min-width:0; min-height:0; }
+@media(min-width:700px) and (min-height:500px) {
+ body { height:var(--app-height,100vh); height:var(--app-height,100dvh); }
+ header { padding:6px 8px; min-height:56px; }
+ .header-top { min-width:0; flex-wrap:wrap; gap:4px 8px; }
+ .brand { min-width:0; flex:0 1 auto; }
+ .brand-title { font-size:16px; }
+ .brand-icon { display:none; }
+ .experience-switch { margin-right:auto; }
+ .header-btns { margin-left:0; flex-wrap:wrap; }
+ .workspace { width:100%; min-width:0; grid-template-columns:minmax(0,1fr) 216px; }
+ .coach-panel>.section-title { flex-wrap:wrap; gap:4px 6px; }
+ #stepBadge { flex:1 1 110px; }
+ .coach-panel .teacher-actions,.coach-panel .btn-row { flex:0 0 auto; }
+ .stage { overflow:hidden; }
+ .canvas-space { flex:1 1 0; }
+ .toolbar { flex-wrap:wrap; }
+ .toolbar>div { min-width:0; flex-wrap:wrap; }
+ .canvas-footer { gap:6px; }
+ .canvas-footer>span { min-width:0; flex:1; }
+ .tools-panel { gap:6px; padding:8px 10px; }
+ .tools-panel>.section-title { min-height:24px; font-size:15px; }
+ .tools-panel>.section-title>.btn { display:none; }
+ .tools-panel .palette { grid-template-columns:repeat(4,minmax(0,1fr)); gap:7px; }
+ .tools-panel .palette .swatch { width:44px; height:44px; min-height:44px; max-width:100%; aspect-ratio:auto; }
+ .tools-panel .custom-color-row { min-height:44px; }
+ .tools-panel .custom-color-row input { height:38px; min-height:38px; }
+ .tools-panel.compact-tools .tool-grid { display:none!important; }
+ .tools-panel.compact-tools .compact-brush { display:block; min-height:44px; font-size:16px; }
+ .tools-panel.compact-tools .current-color { display:none; }
+}
+@media(min-width:700px) and (max-width:850px) and (min-height:500px) {
+ .header-top { display:grid; grid-template-columns:auto 1fr; gap:4px 8px; }
+ .experience-switch { justify-self:end; margin:0; }
+ .header-btns { grid-column:1/-1; justify-content:flex-end; }
+ .coach-panel { grid-column:1/-1; }
+}
+
+
+@media(min-width:700px) and (max-width:850px) and (min-height:500px) and (max-height:700px) {
+ .coach-panel { grid-column:1; }
+ .tools-panel { grid-column:2; grid-row:1/3; }
+ .coach-panel .teacher-actions { flex:1 1 auto; }
+ .coach-panel .teacher-actions .btn { flex:1; }
+ .coach-panel .btn-row { flex:1 1 auto; }
+}
+
 </style>
 </head>
 <body>
@@ -718,7 +770,7 @@ header { background:var(--bg); color:var(--text); box-shadow:none; padding-top:m
       <button class="tool-btn" onclick="setBrush('star')" id="b-star"><span>⭐</span>星星筆</button>
       <button class="tool-btn" onclick="setBrush('eraser')" id="b-eraser"><span>🧽</span>橡皮擦</button>
     </div>
-    <div class="palette-heading"><span>🎨 選個喜歡的顏色</span><span>48 色</span></div>
+    <div class="palette-heading"><span>🎨 選個喜歡的顏色</span><span>36 色</span></div>
     <div class="palette-tabs" role="group" aria-label="色彩分類"><button class="active" id="colors-basic" onclick="showPalette('basic')" aria-pressed="true">基本</button><button id="colors-pastel" onclick="showPalette('pastel')" aria-pressed="false">粉彩</button><button id="colors-nature" onclick="showPalette('nature')" aria-pressed="false">自然</button></div>
     <div class="palette" id="pal" role="group" aria-label="基本色調色盤"></div>
     <div class="custom-color-row"><label for="customColor">＋ 自選顏色</label><input id="customColor" type="color" value="#2b2d42" aria-label="自選畫筆顏色" oninput="chooseColor(this.value,'我的顏色')"></div>
@@ -795,11 +847,7 @@ LESSONS.shapes={name:'🔵 形狀積木',steps:[
  {tip:'最後用四條邊圍成正方形，像一扇小窗戶。',fn:(c,w,h)=>{c.beginPath();c.rect(w*.4,h*.61,h*.24,h*.24);c.stroke()}}
 ]};
 let curLes='lines',curStep=0,brush='pencil',col='#2B2D42',sz=8,drawing=false,last=null,undos=[],redos=[];
-const COLOR_GROUPS={
- basic:{name:'基本色',colors:[['墨黑','#2B2D42'],['白色','#FFFFFF'],['紅色','#FF595E'],['橘色','#FF7A59'],['黃色','#FFCA3A'],['草綠','#8AC926'],['薄荷綠','#06D6A0'],['湖水藍','#3EC1D3'],['藍色','#1982C4'],['深藍','#24478F'],['紫色','#6A4C93'],['桃紅','#B5179E'],['粉紅','#F58DB4'],['咖啡','#8D5B4C'],['灰色','#9CA3AF'],['金黃','#D7A52B']]},
- pastel:{name:'粉彩色',colors:[['櫻花粉','#F9CBD7'],['蜜桃粉','#F5B4AA'],['杏桃橘','#FFD2AE'],['奶油黃','#FFF1AB'],['檸檬黃','#F6F5BF'],['嫩芽綠','#D8E7AE'],['開心果綠','#C4D9B2'],['薄荷奶綠','#BFE7D0'],['淺湖水綠','#BCE6DF'],['天空藍','#B8DCF0'],['粉霧藍','#B9CBE7'],['薰衣草紫','#CCC1E7'],['丁香紫','#E0C2E6'],['玫瑰粉','#E8BBC8'],['奶茶色','#DFCDB6'],['暖灰','#D9D9D3']]},
- nature:{name:'自然與膚色',colors:[['淺膚色','#FFE0BD'],['蜜桃膚','#F3C6A5'],['暖膚色','#DCA078'],['小麥膚','#B97B56'],['深膚色','#87543B'],['深棕膚','#59382B'],['沙土色','#C5A575'],['赭石色','#BA7945'],['紅磚色','#A95445'],['巧克力','#634539'],['樹幹棕','#49382D'],['森林綠','#356F59'],['橄欖綠','#7B8A46'],['鼠尾草綠','#9BAF95'],['海洋藍','#347B91'],['夜空藍','#283D57']]}
-};
+const COLOR_GROUPS={"basic":{"name":"基本色","colors":[["墨黑","#2B2D42"],["白色","#FFFFFF"],["紅色","#FF595E"],["橘色","#FF7A59"],["黃色","#FFCA3A"],["草綠","#8AC926"],["藍色","#1982C4"],["紫色","#6A4C93"],["粉紅","#F58DB4"],["咖啡","#8D5B4C"],["灰色","#9CA3AF"],["湖水藍","#3EC1D3"]]},"pastel":{"name":"粉彩色","colors":[["櫻花粉","#F9CBD7"],["蜜桃粉","#F5B4AA"],["杏桃橘","#FFD2AE"],["奶油黃","#FFF1AB"],["嫩芽綠","#D8E7AE"],["薄荷奶綠","#BFE7D0"],["淺湖水綠","#BCE6DF"],["天空藍","#B8DCF0"],["薰衣草紫","#CCC1E7"],["丁香紫","#E0C2E6"],["奶茶色","#DFCDB6"],["暖灰","#D9D9D3"]]},"nature":{"name":"自然與膚色","colors":[["淺膚色","#FFE0BD"],["蜜桃膚","#F3C6A5"],["暖膚色","#DCA078"],["小麥膚","#B97B56"],["深膚色","#87543B"],["深棕膚","#59382B"],["沙土色","#C5A575"],["紅磚色","#A95445"],["巧克力","#634539"],["森林綠","#356F59"],["鼠尾草綠","#9BAF95"],["海洋藍","#347B91"]]}};
 const COLORS=Object.values(COLOR_GROUPS).flatMap(g=>g.colors.map(c=>c[1]));
 let paletteGroup='basic';
 function chooseColor(color,name){
@@ -1032,6 +1080,34 @@ function setupCompactLayout(){
 }
 
 setupCompactLayout();mix('init');init();setLesson('lines');
+
+// Visual viewport height accounts for Safari's expanding address and tab bars.
+// Do not resize the workspace during a user's accessibility pinch zoom.
+function fitViewport(){
+ const viewport=window.visualViewport;
+ if(!viewport||Math.abs(viewport.scale-1)<.02)
+   document.documentElement.style.setProperty('--app-height',Math.round(viewport?viewport.height:window.innerHeight)+'px');
+}
+function fitDrawingDesk(){
+ const space=document.querySelector('.canvas-space'),wrap=document.getElementById('wrap');
+ const s=getComputedStyle(space);
+ const width=space.clientWidth-parseFloat(s.paddingLeft)-parseFloat(s.paddingRight);
+ const height=space.clientHeight-parseFloat(s.paddingTop)-parseFloat(s.paddingBottom);
+ if(width>0&&height>0){
+   const w=Math.max(1,Math.floor(Math.min(width,height*4/3)));
+   wrap.style.width=w+'px';wrap.style.height=Math.floor(w*3/4)+'px';
+ }
+ const tools=document.querySelector('.tools-panel');
+ tools.classList.toggle('compact-tools',tools.clientHeight<600);
+}
+fitViewport();
+window.addEventListener('resize',fitViewport);
+if(window.visualViewport)window.visualViewport.addEventListener('resize',fitViewport);
+const deskObserver=new ResizeObserver(fitDrawingDesk);
+deskObserver.observe(document.querySelector('.canvas-space'));
+deskObserver.observe(document.querySelector('.tools-panel'));
+fitDrawingDesk();
+
 
 if ('serviceWorker' in navigator && (location.protocol === 'https:' || location.hostname === 'localhost')) {
   navigator.serviceWorker.register('./service-worker.js', {updateViaCache:'none'}).then(r=>r.update()).catch(() => {});
