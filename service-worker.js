@@ -1,5 +1,5 @@
-const CACHE_NAME = 'little-painter-pwa-v8-viewport';
-const ASSETS = ['./', './index.html', './manifest.json', './icon.svg', './icon-180.png', './icon-192.png', './icon-512.png'];
+const CACHE_NAME = 'little-painter-pwa-v8-viewport-islands-return-v1';
+const ASSETS = ['./islands-return.js?v=1','./', './index.html', './manifest.json', './icon.svg', './icon-180.png', './icon-192.png', './icon-512.png'];
 self.addEventListener('install', event => {
   event.waitUntil(caches.open(CACHE_NAME).then(c => c.addAll(ASSETS)).then(() => self.skipWaiting()));
 });
@@ -17,3 +17,4 @@ self.addEventListener('fetch', event => {
     event.respondWith(caches.match(event.request).then(cached => cached || fetch(event.request)));
   }
 });
+
